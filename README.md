@@ -3,28 +3,27 @@
 >Cleaning Data in SQL Queries
 
 
-```
-  Select *
-  From PortfolioProject.dbo.NashvilleHousing
+```  Select *
+``` From PortfolioProject.dbo.NashvilleHousing
   
 > Here i h've tried to change the Date formate to actual date datatype.  
 > After Adding and updating the set We got our data unambiguous date Column.
 __Changing the Data type to date and manipulating the date__
 
-```
-	Select saleDateConverted, CONVERT(Date,SaleDate)
+
+```	Select saleDateConverted, CONVERT(Date,SaleDate)
 	From PortfolioProject.dbo.NashvilleHousing
 ```
-```	
+	
 	Update NashvilleHousing
 	SET SaleDate = CONVERT(Date,SaleDate)
-```
+
 <!--If it doesn't Update properly-->
-```
-	ALTER TABLE NashvilleHousing
+
+```	ALTER TABLE NashvilleHousing
 	Add SaleDateConverted Date;
-```
-	Update NashvilleHousing
+
+```	Update NashvilleHousing
 	SET SaleDateConverted = CONVERT(Date,SaleDate)
 
 
@@ -41,40 +40,39 @@ __Changing the Data type to date and manipulating the date__
 
 __Divided the propertyaddress to "address","city" and "states".___
 
-```
-Select PropertyAddress
-From PortfolioProject.dbo.NashvilleHousing
---Where PropertyAddress is null
---order by ParcelID
-```
-```
-SELECT
-SUBSTRING(PropertyAddress, 1, CHARINDEX(',', PropertyAddress) -1 ) as Address
-, SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddress) + 1 , LEN(PropertyAddress)) as Address
 
-From PortfolioProject.dbo.NashvilleHousing
+```	Select PropertyAddress
+	From PortfolioProject.dbo.NashvilleHousing
+	--Where PropertyAddress is null
+	--order by ParcelID
 ```
+
+	SELECT
+	SUBSTRING(PropertyAddress, 1, CHARINDEX(',', PropertyAddress) -1 ) as Address
+	, SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddress) + 1 , LEN(PropertyAddress)) as Address
+	From PortfolioProject.dbo.NashvilleHousing
 ```
+	
 ALTER TABLE NashvilleHousing
 Add PropertySplitAddress Nvarchar(255);
 ```
-```
+
 Update NashvilleHousing
 SET PropertySplitAddress = SUBSTRING(PropertyAddress, 1, CHARINDEX(',', PropertyAddress) -1 )
 ```
-```
+
 ALTER TABLE NashvilleHousing
 Add PropertySplitCity Nvarchar(255);
 ```
-```
+
 Update NashvilleHousing
 SET PropertySplitCity = SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddress) + 1 , LEN(PropertyAddress))
 ```
-```
+
 Select *
 From PortfolioProject.dbo.NashvilleHousing
 ```
-```
+
 Select OwnerAddress
 From PortfolioProject.dbo.NashvilleHousing
 
@@ -108,7 +106,7 @@ SET OwnerSplitState = PARSENAME(REPLACE(OwnerAddress, ',', '.') , 1)
 ```
 Select *
 From PortfolioProject.dbo.NashvilleHousing
-```
+
 
  **Output  for Table 2**
 <a href="" ><img src="https://bn1305files.storage.live.com/y4mD5R0amHLfLjklXBwaljwbsGNmlRINMxnyo8U0b7d1GWLdxRZZvaI-SA3qyugkUYI0Ln_RBWJu-ccQEcp_xVy2wOt54bGROCp90YJDr51t1IrylnnOMMI9UqwgEzwp9nAgFy_ByAGDy3uXHDJyqTzM9V5lL2gjLbU2HW2iNW45OfkdnkMAqRYJNuAT_5I-KEJ?width=1920&height=1080&cropmode=none"> </a>
@@ -150,7 +148,7 @@ SET SoldAsVacant = CASE When SoldAsVacant = 'Y' THEN 'Yes'
 	   ELSE SoldAsVacant
 	   END
 
-```
+`
  **Output  for Table 3**
 <a href="" ><img src="https://bn1305files.storage.live.com/y4mwKC-Z-hcROzh0MqW28VBeOG-aNaY1XosfNcvl_FUCTAwN4iDTpnZ5Ker2P3WuUaSgAKfNLnMs24CTo_MWcTwNtwrKYIxaYfeNRTTY2bO2Q_4bGhkaPLUn8blz9LvV4F8k8RFlKQf8gtzYJQXcrSDXKkpqV99SsdnJTqvA154hIOXcvVwhqgLoO3NOKq2tRWf?width=1920&height=1080&cropmode=none"> </a>
 >Using Temp Table to perform Calculation on Partition By in previous query 
