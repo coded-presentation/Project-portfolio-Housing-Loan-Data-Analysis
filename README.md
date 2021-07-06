@@ -10,22 +10,24 @@
 > Here i h've tried to change the Date formate to actual date datatype.  
 > After Adding and updating the set We got our data unambiguous date Column.
 __Changing the Data type to date and manipulating the date__
-```
 
-Select saleDateConverted, CONVERT(Date,SaleDate)
-From PortfolioProject.dbo.NashvilleHousing
 ```
-
-Update NashvilleHousing
-SET SaleDate = CONVERT(Date,SaleDate)
+	Select saleDateConverted, CONVERT(Date,SaleDate)
+	From PortfolioProject.dbo.NashvilleHousing
+```
+```	
+	Update NashvilleHousing
+	SET SaleDate = CONVERT(Date,SaleDate)
 ```
 <!--If it doesn't Update properly-->
 ```
-ALTER TABLE NashvilleHousing
-Add SaleDateConverted Date;
+	ALTER TABLE NashvilleHousing
+	Add SaleDateConverted Date;
 ```
-Update NashvilleHousing
-SET SaleDateConverted = CONVERT(Date,SaleDate)
+	Update NashvilleHousing
+	SET SaleDateConverted = CONVERT(Date,SaleDate)
+
+
 
  **Output  for Table-01**
 <a href="" ><img src="https://bn1305files.storage.live.com/y4mFsGcAxvb2XWUeh2WuTQhcLs1xomgOI8IUi3jBTGfFFyFY2yMQpnZFiMpCxgtk_1LxKJKx1jm7c9CuzVR66uWzaa9TdFH8279MAL6iOXXc28qdmwQPAqx04w_8PxLwLrievMRXx2i-atO_2ZGfg3MV_dXmFHZLKnXJQndvVTkD-WREaYsNjnq1QQF4HtzySqQ?width=1219&height=1079&cropmode=none"> </a>
@@ -33,11 +35,8 @@ SET SaleDateConverted = CONVERT(Date,SaleDate)
 <a href="" ><img src="https://bn1305files.storage.live.com/y4mSEEI5sKboXrsUQbhKfeBjIdCmR40Y7U89uon2ahUfW4HsIzgZFidbdpj_TNOV2rH3U4WZpb-AHJfwBtWgZVFLJ95u6y3T0b1TkFKOvlhxE_F8Ai7qCGWSHLlVkCbezCy1XDIgwsMzmquAvHX4HiKy_13JLjLjESZl5mt64px_Eudu5jnMFkQUlmbNV0s3EH1?width=1277&height=1000&cropmode=none"> </a>
 
 >Using Temp Table to perform Calculation on Partition By in previous query
-
 > I populated the Property_Address Which are null or uncomplete in some of the cells.
 > Thus we have now stuffed our address field & mitigate repeted or null cells.
-
-
 > I further divided the address column in to sub strings as (Address, City, State)
 
 __Divided the propertyaddress to "address","city" and "states".___
@@ -48,34 +47,34 @@ From PortfolioProject.dbo.NashvilleHousing
 --Where PropertyAddress is null
 --order by ParcelID
 ```
+```
 SELECT
 SUBSTRING(PropertyAddress, 1, CHARINDEX(',', PropertyAddress) -1 ) as Address
 , SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddress) + 1 , LEN(PropertyAddress)) as Address
 
 From PortfolioProject.dbo.NashvilleHousing
-
+```
 ```
 ALTER TABLE NashvilleHousing
 Add PropertySplitAddress Nvarchar(255);
-
+```
+```
 Update NashvilleHousing
 SET PropertySplitAddress = SUBSTRING(PropertyAddress, 1, CHARINDEX(',', PropertyAddress) -1 )
-
+```
 ```
 ALTER TABLE NashvilleHousing
 Add PropertySplitCity Nvarchar(255);
-
+```
+```
 Update NashvilleHousing
 SET PropertySplitCity = SUBSTRING(PropertyAddress, CHARINDEX(',', PropertyAddress) + 1 , LEN(PropertyAddress))
-
-
+```
+```
 Select *
 From PortfolioProject.dbo.NashvilleHousing
-
-
-
 ```
-
+```
 Select OwnerAddress
 From PortfolioProject.dbo.NashvilleHousing
 
@@ -85,7 +84,6 @@ PARSENAME(REPLACE(OwnerAddress, ',', '.') , 3)
 ,PARSENAME(REPLACE(OwnerAddress, ',', '.') , 2)
 ,PARSENAME(REPLACE(OwnerAddress, ',', '.') , 1)
 From PortfolioProject.dbo.NashvilleHousing
-
 
 ```
 ALTER TABLE NashvilleHousing
@@ -102,14 +100,11 @@ Update NashvilleHousing
 SET OwnerSplitCity = PARSENAME(REPLACE(OwnerAddress, ',', '.') , 2)
 
 ```
-
 ALTER TABLE NashvilleHousing
 Add OwnerSplitState Nvarchar(255);
 ```
 Update NashvilleHousing
 SET OwnerSplitState = PARSENAME(REPLACE(OwnerAddress, ',', '.') , 1)
-
-
 ```
 Select *
 From PortfolioProject.dbo.NashvilleHousing
@@ -132,12 +127,12 @@ From PortfolioProject.dbo.NashvilleHousing
 ```
 -- Change Y and N to Yes and No in "Sold as Vacant" field
 
-
+```
 Select Distinct(SoldAsVacant), Count(SoldAsVacant)
 From PortfolioProject.dbo.NashvilleHousing
 Group by SoldAsVacant
 order by 2
-
+```
 
 
 ```
@@ -147,7 +142,7 @@ Select SoldAsVacant
 	   ELSE SoldAsVacant
 	   END
 From PortfolioProject.dbo.NashvilleHousing
-
+```
 ```
 Update NashvilleHousing
 SET SoldAsVacant = CASE When SoldAsVacant = 'Y' THEN 'Yes'
@@ -161,9 +156,10 @@ SET SoldAsVacant = CASE When SoldAsVacant = 'Y' THEN 'Yes'
 >Using Temp Table to perform Calculation on Partition By in previous query 
 
 >Then i removed duplicates using row_no, CTE, and windows functionality of partition_by 
-\
+
 __Remove Duplicates__
 
+```
 WITH RowNumCTE AS(
 Select *,
 	ROW_NUMBER() OVER (
@@ -183,12 +179,12 @@ Select *
 From RowNumCTE
 Where row_num > 1
 Order by PropertyAddress
+```
 
-
-
+```
 Select *
 From PortfolioProject.dbo.NashvilleHousing
-
+```
  **Output  for Table 4**
 <a href="" ><img src="https://bn1305files.storage.live.com/y4mjN_VCldGjpBiowNbHN-RnYD-A9hubOKlDj4VJ6DBALO4R33nY1NBGIRk2Q09pyKhysEnICtfibDd5LLHYwh-PvLaf3IXcHXcrdll81yLrjLoqjbmP41Lw_P6MUrFHk5lgCZnc4p_tBYhAjzhmmTzmURu-7Ry4lv-1JrIdTNpmmM304OAl7MB2ddtMAj8QwK2?width=950&height=1000&cropmode=none"> </a>
 <a href=""> <img src="https://bn1305files.storage.live.com/y4mELb4kRgDJBh9JuqFw8_ItieC5Y6sbWfu5zHFw5xOJdOTqejY2qiZrjPgtDpdhTawZYswK_K4ID31gEvhT0GqBNcofWG5IzE5IjrfT5OV3rYt8hodW49hrF979_kLBuRVrqLFKwR7klOCly6M-jykP0eSLXXMCXxHTbstYcaiM5F27XNN0cVpAaKje2uWiqc_?width=1697&height=1014&cropmode=none"></a>
@@ -199,12 +195,12 @@ __ Delete Unused Columns__
 
 ```
 
-Select *
-From PortfolioProject.dbo.NashvilleHousing
-
+	Select *
+	From PortfolioProject.dbo.NashvilleHousing
+	
 ```
-ALTER TABLE PortfolioProject.dbo.NashvilleHousing
-DROP COLUMN OwnerAddress, TaxDistrict, PropertyAddress, SaleDate
+	ALTER TABLE PortfolioProject.dbo.NashvilleHousing
+	DROP COLUMN OwnerAddress, TaxDistrict, PropertyAddress, SaleDate
 
 
  **Output  for Table 5**
