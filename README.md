@@ -1,5 +1,22 @@
 # Project-portfolio-NESHVILLHOUSING-Data-cleaning
 
+<!---->        
+
+<!--<a href="" ><img src=""> </a>-->
+ 
+</a>
+
+<h2> About Me</h2>
+<div>
+<a href="https://media-exp3.licdn.com/dms/image/D5635AQGENREQtSOVvA/profile-framedphoto-shrink_100_100/0/1624892028859?e=1626242400&v=beta&t=Vg9jbuG3OgWuTiinlR3A6Pdcpfw1iBu_MgY2_MlgNNE"><img src="https://media-exp3.licdn.com/dms/image/D5635AQGENREQtSOVvA/profile-framedphoto-shrink_100_100/0/1624892028859?e=1626242400&v=beta&t=Vg9jbuG3OgWuTiinlR3A6Pdcpfw1iBu_MgY2_MlgNNE"></a>
+</div>
+<h3>
+            KARAN SHAH
+</h3>
+<h4>
+            Computer Engineer / Data Analyst / Pursuing Google Data Analytics Professional Certificate
+</h4>
+
 >Cleaning Data in SQL Queries
 
 
